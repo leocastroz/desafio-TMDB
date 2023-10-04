@@ -1,5 +1,5 @@
 <template>
-    <select class="p-2 rounded bg-gray-500 text-gray-300 cursor-pointer" :value="timeWindow" @change="onTimeWindowChange">
+    <select class="p-2 rounded bg-gray-500 text-gray-300 cursor-pointer" :value="DayWeek" @change="onTimeWindowChange">
       <option value="day">Dia</option>
       <option value="week">Semana</option>
     </select>
@@ -10,14 +10,14 @@
   
   export default defineComponent({
     props: {
-      timeWindow: String,
+      DayWeek: String,
     },
-    emits: ['update:timeWindow', 'fetchMoviesTimeWindow'],
+    emits: ['update:DayWeek', 'fetchMoviesDayWeek'],
     methods: {
       onTimeWindowChange(event) {
         const selectedValue = event.target.value;
-        this.$emit('update:timeWindow', selectedValue);
-        this.$emit('fetchMoviesTimeWindow');
+        this.$emit('update:DayWeek', selectedValue);
+        this.$emit('fetchMoviesDayWeek');
       },
     },
   });

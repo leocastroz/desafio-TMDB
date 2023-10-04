@@ -7,7 +7,7 @@
         </div>
         <div class="py-4 flex">
           <MovieOptions :selectedOption="selectedOption" @update:selectedOption="selectedOption = $event" @fetchMovies="fetchMovies" />
-          <DayWeek :timeWindow="timeWindow" @update:timeWindow="timeWindow = $event" @fetchMoviesTimeWindow="fetchMoviesTimeWindow" />
+          <DayWeek :DayWeek="DayWeek" @update:DayWeek="DayWeek = $event" @fetchMoviesDayWeek="fetchMoviesDayWeek" />
         </div>
       </div>
       <ul class="flex flex-wrap gap-5 justify-center">
@@ -54,7 +54,7 @@ export default {
   setup() {
     const movies = ref([]);
     const selectedOption = ref('now_playing');
-    const timeWindow = ref('day');
+    const DayWeek = ref('day');
     const showModal = ref(false);
     const selectedMovie = ref([]);
 
@@ -76,8 +76,8 @@ export default {
         });
     };
 
-    const fetchMoviesTimeWindow = () => {
-      const apiUrl = TRENDING_API_URLS[timeWindow.value];
+    const fetchMoviesDayWeek = () => {
+      const apiUrl = TRENDING_API_URLS[DayWeek.value];
       axios
         .get(apiUrl, { params: { api_key: API_KEY } })
         .then((response) => {
@@ -114,12 +114,12 @@ export default {
       openModal,
       formatDate,
       closeModal,
-      timeWindow,
+      DayWeek,
       fetchMovies,
       selectedMovie,
       selectedOption,
       getMoviePosterUrl,
-      fetchMoviesTimeWindow,
+      fetchMoviesDayWeek,
     };
   },
 };
