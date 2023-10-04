@@ -35,14 +35,25 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
+const API_KEY = 'c8a98580ce50f04d603d9913e1935107';
+
+const MOVIE_API_URLS = {
+  now_playing: 'https://api.themoviedb.org/3/movie/now_playing',
+  popular: 'https://api.themoviedb.org/3/movie/popular',
+  top_rated: 'https://api.themoviedb.org/3/movie/top_rated',
+  upcoming: 'https://api.themoviedb.org/3/movie/upcoming',
+};
+
+const TRENDING_API_URLS = {
+  day: 'https://api.themoviedb.org/3/trending/all/day',
+  week: 'https://api.themoviedb.org/3/trending/all/week',
+};
+
 export default {
   setup() {
     const movies = ref([]);
     const selectedOption = ref('now_playing');
     const timeWindow = ref('day');
-    const apiKey = 'c8a98580ce50f04d603d9913e1935107';
-    // const apiKey = import.meta.env.VUE_APP_API_KEY;
-
 
     const formatDate = (dateString) => {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -51,48 +62,30 @@ export default {
     };
 
     const fetchMovies = () => {
-      let apiUrl = '';
-
-      if (selectedOption.value === 'now_playing') {
-        apiUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`;
-      } else if (selectedOption.value === 'popular') {
-        apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`;
-      } else if (selectedOption.value === 'top_rated') {
-        apiUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`;
-      } else if (selectedOption.value === 'upcoming') {
-        apiUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}`;
-      }
-
+      const apiUrl = MOVIE_API_URLS[selectedOption.value];
       axios
-        .get(apiUrl)
-        .then(response => {
+        .get(apiUrl, { params: { api_key: API_KEY } })
+        .then((response) => {
           movies.value = response.data.results;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Erro ao buscar filmes:', error);
         });
     };
 
     const fetchMoviesTimeWindow = () => {
-      let apiUrl = '';
-
-      if (timeWindow.value === 'day') {
-        apiUrl = `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`;
-      } else if (timeWindow.value === 'week') {
-        apiUrl = `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}`;
-      }
-
+      const apiUrl = TRENDING_API_URLS[timeWindow.value];
       axios
-        .get(apiUrl)
-        .then(response => {
+        .get(apiUrl, { params: { api_key: API_KEY } })
+        .then((response) => {
           movies.value = response.data.results;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Erro ao buscar filmes:', error);
         });
     };
 
-    const getMoviePosterUrl = posterPath => {
+    const getMoviePosterUrl = (posterPath) => {
       if (posterPath) {
         return `https://image.tmdb.org/t/p/w200/${posterPath}`;
       }
@@ -105,13 +98,13 @@ export default {
 
     return {
       movies,
-      selectedOption,
-      timeWindow,
-      getMoviePosterUrl,
       formatDate,
+      timeWindow,
       fetchMovies,
-      fetchMoviesTimeWindow
+      selectedOption,
+      getMoviePosterUrl,
+      fetchMoviesTimeWindow,
     };
-  }
+  },
 };
 </script>
