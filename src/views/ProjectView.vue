@@ -6,20 +6,20 @@
           <h1 class="py-6 text-white text-center">Lista de Filmes</h1>
         </div>
         <div class="py-4">
-          <select class="p-2 mx-2 rounded bg-gray-500 text-gray-300" v-model="selectedOption" @change="fetchMovies()">
-            <option value="now_playing">Now Playing</option>
-            <option value="popular">Popular</option>
-            <option value="top_rated">Top Rated</option>
-            <option value="upcoming">Upcoming</option>
+          <select class="p-2 mx-2 rounded bg-gray-500 text-gray-300 cursor-pointer" v-model="selectedOption" @change="fetchMovies()">
+            <option value="now_playing">Recentes</option>
+            <option value="popular">Populares</option>
+            <option value="top_rated">Mais Votados</option>
+            <option value="upcoming">Em breve</option>
           </select>
-          <select class="p-2 rounded bg-gray-500 text-gray-300" v-model="timeWindow" @change="fetchMoviesTimeWindow()">
-            <option value="day">Day</option>
-            <option value="week">Week</option>
+          <select class="p-2 rounded bg-gray-500 text-gray-300 cursor-pointer" v-model="timeWindow" @change="fetchMoviesTimeWindow()">
+            <option value="day">Dia</option>
+            <option value="week">Semana</option>
           </select>
         </div>
       </div>
-      <ul class="flex flex-wrap gap-4 justify-center">
-        <li v-for="movie in movies" :key="movie.id" class="bg-gray-800 rounded-xl text-white">
+      <ul class="flex flex-wrap gap-5 justify-center">
+        <li v-for="movie in movies" :key="movie.id" class="bg-gray-800 rounded-xl text-white cursor-pointer hover:scale-105 transition-transform duration-300 hover:bg-blue-700">
           <div class="w-36">
             <img class="rounded-xl" :src="getMoviePosterUrl(movie.poster_path)" alt="Poster do Filme" width="150">
             <p class="my-2 w-full text-center mx-auto">{{ movie.title }}</p>
@@ -40,6 +40,9 @@ export default {
     const movies = ref([]);
     const selectedOption = ref('now_playing');
     const timeWindow = ref('day');
+    const apiKey = 'c8a98580ce50f04d603d9913e1935107';
+    // const apiKey = import.meta.env.VUE_APP_API_KEY;
+
 
     const formatDate = (dateString) => {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -48,17 +51,16 @@ export default {
     };
 
     const fetchMovies = () => {
-      // const apiKey = 'SUA_CHAVE_API';
       let apiUrl = '';
 
       if (selectedOption.value === 'now_playing') {
-        apiUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=c8a98580ce50f04d603d9913e1935107`;
+        apiUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`;
       } else if (selectedOption.value === 'popular') {
-        apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=c8a98580ce50f04d603d9913e1935107`;
+        apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`;
       } else if (selectedOption.value === 'top_rated') {
-        apiUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=c8a98580ce50f04d603d9913e1935107`;
+        apiUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`;
       } else if (selectedOption.value === 'upcoming') {
-        apiUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=c8a98580ce50f04d603d9913e1935107`;
+        apiUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}`;
       }
 
       axios
@@ -75,9 +77,9 @@ export default {
       let apiUrl = '';
 
       if (timeWindow.value === 'day') {
-        apiUrl = `https://api.themoviedb.org/3/trending/all/day?api_key=c8a98580ce50f04d603d9913e1935107`;
+        apiUrl = `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`;
       } else if (timeWindow.value === 'week') {
-        apiUrl = `https://api.themoviedb.org/3/trending/all/week?api_key=c8a98580ce50f04d603d9913e1935107`;
+        apiUrl = `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}`;
       }
 
       axios

@@ -9,7 +9,7 @@ import MainHeader from './components/MainHeader.vue'
       <MainHeader />
       <nav class="text-center py-5 bg-gray-700 rounded">
         <RouterLink class="mx-2" to="/">Home</RouterLink>
-        <RouterLink class="mx-2" to="/project">Conferir projeto 📃</RouterLink>
+        <RouterLink class="mx-2" to="/project">Projeto 📃</RouterLink>
       </nav>
     </div>
   </header>
