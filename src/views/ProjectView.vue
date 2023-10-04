@@ -5,17 +5,9 @@
         <div>
           <h1 class="py-6 text-white text-center">Lista de Filmes</h1>
         </div>
-        <div class="py-4">
-          <select class="p-2 mx-2 rounded bg-gray-500 text-gray-300 cursor-pointer" v-model="selectedOption" @change="fetchMovies()">
-            <option value="now_playing">Recentes</option>
-            <option value="popular">Populares</option>
-            <option value="top_rated">Mais Votados</option>
-            <option value="upcoming">Em breve</option>
-          </select>
-          <select class="p-2 rounded bg-gray-500 text-gray-300 cursor-pointer" v-model="timeWindow" @change="fetchMoviesTimeWindow()">
-            <option value="day">Dia</option>
-            <option value="week">Semana</option>
-          </select>
+        <div class="py-4 flex">
+          <MovieOptions :selectedOption="selectedOption" @update:selectedOption="selectedOption = $event" @fetchMovies="fetchMovies" />
+          <DayWeek :timeWindow="timeWindow" @update:timeWindow="timeWindow = $event" @fetchMoviesTimeWindow="fetchMoviesTimeWindow" />
         </div>
       </div>
       <ul class="flex flex-wrap gap-5 justify-center">
@@ -32,6 +24,8 @@
 </template>
 
 <script>
+import MovieOptions from '@/components/MovieOptions.vue';
+import DayWeek from '@/components/DayWeek.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
@@ -50,6 +44,10 @@ const TRENDING_API_URLS = {
 };
 
 export default {
+  components: {
+    MovieOptions,
+    DayWeek,
+  },
   setup() {
     const movies = ref([]);
     const selectedOption = ref('now_playing');
