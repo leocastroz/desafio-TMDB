@@ -1,27 +1,29 @@
 <template>
   <div>
-    <div class="w-2/5 mx-auto rounded px-10">
-      <div class="flex justify-between items-center bg-green-800 my-8 px-3 rounded">
+    <div class="w-2/5 mx-auto rounded-xl px-10">
+      <div class="flex justify-between items-center bg-gray-800 my-8 px-3 rounded">
         <div>
-          <h1 class="py-12">Lista de Filmes</h1>
+          <h1 class="py-12 text-white">Lista de Filmes</h1>
         </div>
         <div>
-          <select class="p-2 mx-2 rounded" v-model="selectedOption" @change="fetchMovies()">
+          <select class="p-2 mx-2 rounded bg-gray-500 text-gray-300" v-model="selectedOption" @change="fetchMovies()">
             <option value="now_playing">Now Playing</option>
             <option value="popular">Popular</option>
             <option value="top_rated">Top Rated</option>
             <option value="upcoming">Upcoming</option>
           </select>
-          <select class="p-2 rounded" v-model="timeWindow" @change="fetchMoviesTimeWindow()">
-            <option value="day">Dia</option>
-            <option value="week">Semana</option>
+          <select class="p-2 rounded bg-gray-500 text-gray-300" v-model="timeWindow" @change="fetchMoviesTimeWindow()">
+            <option value="day">Day</option>
+            <option value="week">Week</option>
           </select>
         </div>
       </div>
       <ul class="flex flex-wrap gap-4 justify-between">
-        <li v-for="movie in movies" :key="movie.id">
-          <img :src="getMoviePosterUrl(movie.poster_path)" alt="Poster do Filme">
-          {{ movie.title }}
+        <li v-for="movie in movies" :key="movie.id" class="bg-gray-800 w-1/4 rounded-xl text-white">
+          <img class="rounded-xl" :src="getMoviePosterUrl(movie.poster_path)" alt="Poster do Filme">
+          <p class="my-2 w-full text-center mx-auto">{{ movie.title }}</p>
+          <p class="my-2 w-full text-center mx-auto text-gray-500 text-[13px]">{{ formatDate(movie.release_date) }}</p>
+
         </li>
       </ul>
     </div>
@@ -37,6 +39,12 @@ export default {
     const movies = ref([]);
     const selectedOption = ref('now_playing');
     const timeWindow = ref('day');
+
+    const formatDate = (dateString) => {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      const date = new Date(dateString);
+      return date.toLocaleDateString('pt-BR', options);
+    };
 
     const fetchMovies = () => {
       // const apiKey = 'SUA_CHAVE_API';
@@ -97,6 +105,7 @@ export default {
       selectedOption,
       timeWindow,
       getMoviePosterUrl,
+      formatDate,
       fetchMovies,
       fetchMoviesTimeWindow
     };

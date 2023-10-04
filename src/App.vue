@@ -4,10 +4,10 @@ import MainHeader from './components/MainHeader.vue'
 </script>
 
 <template>
-  <header class="w-full bg-green-800 text-white">
+  <header class="w-full bg-gray-800 text-white">
     <div class="w-2/5 mx-auto">
       <MainHeader />
-      <nav class="text-center py-5 bg-green-900 rounded">
+      <nav class="text-center py-5 bg-gray-700 rounded">
         <RouterLink class="mx-2" to="/">Home</RouterLink>
         <RouterLink class="mx-2" to="/project">Conferir projeto 📃</RouterLink>
       </nav>
