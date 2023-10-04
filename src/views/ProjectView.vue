@@ -11,7 +11,7 @@
         </div>
       </div>
       <ul class="flex flex-wrap gap-5 justify-center">
-        <li v-for="movie in movies" :key="movie.id" class="bg-gray-800 rounded-xl text-white cursor-pointer hover:scale-105 transition-transform duration-300 hover:bg-blue-700">
+        <li v-for="movie in movies" :key="movie.id" class="bg-gray-800 rounded-xl text-white cursor-pointer hover:scale-105 transition-transform duration-300 hover:bg-blue-700" @click="openModal(movie)">
           <div class="w-36">
             <img class="rounded-xl" :src="getMoviePosterUrl(movie.poster_path)" alt="Poster do Filme" width="150">
             <p class="my-2 w-full text-center mx-auto">{{ movie.title }}</p>
@@ -20,11 +20,13 @@
         </li>
       </ul>
     </div>
+    <movie-modal :show="showModal" :movie="selectedMovie" @close="closeModal" />
   </div>
 </template>
 
 <script>
 import MovieOptions from '@/components/MovieOptions.vue';
+import MovieModal from '@/components/MovieModal.vue';
 import DayWeek from '@/components/DayWeek.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
@@ -46,12 +48,15 @@ const TRENDING_API_URLS = {
 export default {
   components: {
     MovieOptions,
+    MovieModal,
     DayWeek,
   },
   setup() {
     const movies = ref([]);
     const selectedOption = ref('now_playing');
     const timeWindow = ref('day');
+    const showModal = ref(false);
+    const selectedMovie = ref([]);
 
     const formatDate = (dateString) => {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -90,15 +95,28 @@ export default {
       return '';
     };
 
+    const openModal = (movie) => {
+      selectedMovie.value = movie;
+      showModal.value = true;
+    };
+
+    const closeModal = () => {
+      showModal.value = false;
+    };
+
     onMounted(() => {
       fetchMovies();
     });
 
     return {
       movies,
+      showModal,
+      openModal,
       formatDate,
+      closeModal,
       timeWindow,
       fetchMovies,
+      selectedMovie,
       selectedOption,
       getMoviePosterUrl,
       fetchMoviesTimeWindow,
