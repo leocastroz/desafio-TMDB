@@ -5,7 +5,7 @@ import MainHeader from './components/MainHeader.vue'
 
 <template>
   <header class="w-full bg-gray-800 text-white">
-    <div class="w-2/5 mx-auto">
+    <div class="mx-auto">
       <MainHeader />
       <nav class="text-center py-5 bg-gray-700 rounded">
         <RouterLink class="mx-2" to="/">Home</RouterLink>

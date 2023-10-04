@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="w-2/5 mx-auto rounded-xl px-10">
-      <div class="flex justify-between items-center bg-gray-800 my-8 px-3 rounded">
+    <div class="mx-auto rounded-xl px-10">
+      <div class="grid items-center justify-center items-center bg-gray-800 my-8 px-3 rounded sm:flex sm:justify-between">
         <div>
-          <h1 class="py-12 text-white">Lista de Filmes</h1>
+          <h1 class="py-6 text-white text-center">Lista de Filmes</h1>
         </div>
-        <div>
+        <div class="py-4">
           <select class="p-2 mx-2 rounded bg-gray-500 text-gray-300" v-model="selectedOption" @change="fetchMovies()">
             <option value="now_playing">Now Playing</option>
             <option value="popular">Popular</option>
@@ -18,12 +18,13 @@
           </select>
         </div>
       </div>
-      <ul class="flex flex-wrap gap-4 justify-between">
-        <li v-for="movie in movies" :key="movie.id" class="bg-gray-800 w-1/4 rounded-xl text-white">
-          <img class="rounded-xl" :src="getMoviePosterUrl(movie.poster_path)" alt="Poster do Filme">
-          <p class="my-2 w-full text-center mx-auto">{{ movie.title }}</p>
-          <p class="my-2 w-full text-center mx-auto text-gray-500 text-[13px]">{{ formatDate(movie.release_date) }}</p>
-
+      <ul class="flex flex-wrap gap-4 justify-center">
+        <li v-for="movie in movies" :key="movie.id" class="bg-gray-800 rounded-xl text-white">
+          <div class="w-36">
+            <img class="rounded-xl" :src="getMoviePosterUrl(movie.poster_path)" alt="Poster do Filme" width="150">
+            <p class="my-2 w-full text-center mx-auto">{{ movie.title }}</p>
+            <p class="my-2 w-full text-center mx-auto text-gray-500 text-[13px]">{{ formatDate(movie.release_date) }}</p>
+          </div>
         </li>
       </ul>
     </div>
